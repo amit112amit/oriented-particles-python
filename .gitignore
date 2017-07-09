@@ -1,0 +1,10 @@
+# Ignore .directory created by Dolphin
+.directory
+
+# Ignore the simulations directory
+simulations/asph
+simulations/*.vtk
+simulations/*.txt
+
+# Ignore the __pycache__
+**/__pycache__
