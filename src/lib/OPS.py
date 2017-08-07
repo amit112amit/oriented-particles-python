@@ -9,7 +9,8 @@ import vtk as v
 import matplotlib.pyplot as plt
 
 from numba import jit
-from numpy import zeros, array, arcsin, sin, cos, pi, logspace, mean, absolute
+from numpy import zeros, array, arcsin, sin, cos, pi, logspace, mean, \
+    absolute, sqrt
 from numpy.linalg import norm
 from src.lib.Quaternion import conjugation
 
@@ -402,6 +403,66 @@ def checkConsistency( x, params ):
     ax.loglog(h,err)
     ax.set_ylabel("Error")
     ax.set_xlabel("h")
+
+"""
+A function to calculate asphericity and average radius from solution array x
+"""
+@jit(nopython=True,cache=True)
+def getRadialStats(x):
+    N_tot = len(x)/6.0
+    N = int(N_tot)    
+    # Calculate average radius    
+    ravg = 0.0
+    rad = zeros(N)
+    for i in range(N):
+        si = i*6
+        pt = x[si+3:si+6]
+        rad[i] = sqrt( pt[0]*pt[0] + pt[1]*pt[1] + pt[2]*pt[2] )
+        ravg += rad[i]
+    ravg /= N
+    asph = 0.0
+    for i in range(N):
+        si = i*6
+        pt = x[si+3:si+6]
+        asph += (rad[i] - ravg)**2/N
+    asph /= ravg**2
+    return ravg, asph
+
+"""
+Convert x-array to a vtk file
+"""
+def writeToVTK(x,fileName):   
+    # Calculate the total number of points in the particle system.
+    N = int( len(x)/6 )
+    
+    # Compute the point normals and create points and vertices for vtkPolyData
+    finalPts = v.vtkPoints()
+    finalNormals = v.vtkDoubleArray()
+    finalNormals.SetNumberOfComponents( 3 )
+    finalNormals.SetNumberOfTuples( N )
+    verts = v.vtkCellArray()
+    for i in range(N):
+        si = i*6
+        currRotVec = x[si:si+3]
+        currNormal = rotVectorToPtNormal( currRotVec )
+        currPoint = x[si+3:si+6]
+        finalNormals.SetTuple( i, currNormal )
+        finalPts.InsertNextPoint( currPoint )
+        verts.InsertNextCell(1)
+        verts.InsertCellPoint( i )
+    
+    # Create new polydata
+    pd = v.vtkPolyData()
+    pd.SetPoints( finalPts )
+    pd.SetVerts( verts )
+    pd.GetPointData().SetNormals( finalNormals )
+    
+    # Write the output file
+    pdw = v.vtkPolyDataWriter()    
+    pdw.SetFileName(fileName)
+    pdw.SetInputData(pd)
+    pdw.Update()
+    pdw.Write()
 
 """
 Construct a surface from a cloud of points using kd-tree approach

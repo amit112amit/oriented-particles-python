@@ -5,6 +5,7 @@
 simulations/asph
 simulations/*.vtk
 simulations/*.txt
+simulations/*.pdf
 
 # Ignore the __pycache__
 **/__pycache__

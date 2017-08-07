@@ -7,14 +7,22 @@ Created on Sat Jul  8 19:00:24 2017
 """
 import vtk as v
 import numpy as np
-import OPS as ops
+import src.lib.OPS as ops
 import sys
 from os.path import splitext
+from os import remove
 
-# Convert .txt files to vtk
-fileName, file_ext = splitext(sys.argv[1])
+# Load txt file into a NumPy array and delete the file
 sol = np.loadtxt(sys.argv[1])  
+remove(sys.argv[1])
+
+# Separate file name from its extension
+fileName, file_ext = splitext(sys.argv[1])
+
+# Calculate the total number of points in the particle system.
 N = int( len(sol)/6 )
+
+# Compute the point normals and create points and vertices for vtkPolyData
 finalPts = v.vtkPoints()
 finalNormals = v.vtkDoubleArray()
 finalNormals.SetNumberOfComponents( 3 )
