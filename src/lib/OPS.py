@@ -460,7 +460,13 @@ def writeToVTK(x,fileName):
     dssf = v.vtkDataSetSurfaceFilter()
     cellIds = v.vtkIdList()
     finalTris = v.vtkCellArray()   
-        
+    
+    """
+    Project all the points from finalPts to a unit sphere.
+    Generate a convex hull on the unit sphere. Map the topology
+    of triangles from unitSphere to finalPts by making use of
+    vtkIdFilter to track the original Ids of the points in finalPts
+    """
     unitSphere.SetPoints( unitSpherePts )
     ids.SetIdsArrayName("origIds")
     ids.PointIdsOn()
