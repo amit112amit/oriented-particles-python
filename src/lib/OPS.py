@@ -437,10 +437,11 @@ def writeToVTK(x,fileName):
     
     # Compute the point normals and create points and vertices for vtkPolyData
     finalPts = v.vtkPoints()
+    unitSpherePts = v.vtkPoints()
     finalNormals = v.vtkDoubleArray()
     finalNormals.SetNumberOfComponents( 3 )
     finalNormals.SetNumberOfTuples( N )
-    verts = v.vtkCellArray()
+    #verts = v.vtkCellArray()
     for i in range(N):
         si = i*6
         currRotVec = x[si:si+3]
@@ -448,14 +449,43 @@ def writeToVTK(x,fileName):
         currPoint = x[si+3:si+6]
         finalNormals.SetTuple( i, currNormal )
         finalPts.InsertNextPoint( currPoint )
-        verts.InsertNextCell(1)
-        verts.InsertCellPoint( i )
+        #verts.InsertNextCell(1)
+        #verts.InsertCellPoint( i )
+        normalizedPoint = currPoint / norm(currPoint)
+        unitSpherePts.InsertNextPoint( normalizedPoint )
     
+    unitSphere = v.vtkPolyData()    
+    ids = v.vtkIdFilter()
+    d3D = v.vtkDelaunay3D()
+    dssf = v.vtkDataSetSurfaceFilter()
+    cellIds = v.vtkIdList()
+    finalTris = v.vtkCellArray()   
+        
+    unitSphere.SetPoints( unitSpherePts )
+    ids.SetIdsArrayName("origIds")
+    ids.PointIdsOn()
+    ids.SetInputData( unitSphere )
+    d3D.SetInputConnection( ids.GetOutputPort() )
+    dssf.SetInputConnection( d3D.GetOutputPort() )
+    dssf.Update()
+    triangulation = dssf.GetOutput()
+    cells = triangulation.GetPolys()
+    cells.InitTraversal()
+    origIds = v.vtkIdTypeArray.SafeDownCast( 
+            triangulation.GetPointData().GetArray("origIds") )
+    while cells.GetNextCell( cellIds ):
+        if cellIds.GetNumberOfIds() == 3:
+            finalTris.InsertNextCell( 3 )        
+            for i in range( 3 ):
+                finalTris.InsertCellPoint(int(
+                        origIds.GetTuple1(cellIds.GetId(i))))
+                
     # Create new polydata
     pd = v.vtkPolyData()
     pd.SetPoints( finalPts )
-    pd.SetVerts( verts )
+    #pd.SetVerts( verts )
     pd.GetPointData().SetNormals( finalNormals )
+    pd.SetPolys( finalTris )
     
     # Write the output file
     pdw = v.vtkPolyDataWriter()    
@@ -463,7 +493,3 @@ def writeToVTK(x,fileName):
     pdw.SetInputData(pd)
     pdw.Update()
     pdw.Write()
-
-"""
-Construct a surface from a cloud of points using kd-tree approach
-"""

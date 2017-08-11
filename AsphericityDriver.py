@@ -5,9 +5,9 @@ Created on Thu Jun 29 13:02:32 2017
     Driver file for asphericity calculations
 @author: amit
 """
-import sys
-sys.path.insert(0,\
-            '/home/amit/GoogleDrive/Research/Code/oriented-particles-python')
+#import sys
+#sys.path.insert(0,\
+#            '/home/amit/GoogleDrive/Research/Code/oriented-particles-python')
 import os
 import vtk as v
 import numpy as np

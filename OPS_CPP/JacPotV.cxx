@@ -1,18 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Sun Jun 25 16:18:19 2017
-    Numerical values for derivatives of the potentials
-@author: amit
-"""
-
-from numba import jit, f8
-from numpy import sqrt, array, cos, sin
-
-"""
-Derivative of co-planarity potential wrt vi
-"""
-@jit( f8[:](f8[:], f8[:], f8[:]), cache=True, nopython=True )
 def Dphi_pDvi(vi, xi, xj):
     u0,u1,u2 = vi
     x0,x1,x2 = xi
@@ -103,10 +88,7 @@ def Dphi_pDvi(vi, xi, xj):
         
     return array([Dphi_pDu0,Dphi_pDu1,Dphi_pDu2])
 
-"""
-Derivative of co-normality potential wrt vi
-"""
-@jit( f8[:](f8[:], f8[:]), cache=True, nopython=True )
+
 def Dphi_nDvi(vi, vj):
     u0,u1,u2 = vi
     v0,v1,v2 = vj
@@ -217,10 +199,6 @@ def Dphi_nDvi(vi, vj):
 
     return array([Dphi_nDu0,Dphi_nDu1,Dphi_nDu2])
 
-"""
-Derivative of co-normality potential wrt vj
-"""
-@jit( f8[:](f8[:], f8[:]), cache=True, nopython=True )
 def Dphi_nDvj(vi, vj):
     u0,u1,u2 = vi
     v0,v1,v2 = vj
@@ -328,10 +306,7 @@ def Dphi_nDvj(vi, vj):
     
     return array([Dphi_nDv0,Dphi_nDv1,Dphi_nDv2])
 
-"""
-Derivative of co-circularity potential wrt vi
-"""
-@jit( f8[:](f8[:], f8[:], f8[:], f8[:]), cache=True, nopython=True )
+
 def Dphi_cDvi(vi, vj, xi, xj):
     u0,u1,u2 = vi
     v0,v1,v2 = vj
@@ -445,10 +420,7 @@ def Dphi_cDvi(vi, vj, xi, xj):
     
     return array([Dphi_cDu0,Dphi_cDu1,Dphi_cDu2])
 
-"""
-Derivative of co-circularity potential wrt vj
-"""
-@jit( f8[:](f8[:], f8[:], f8[:], f8[:]), cache=True, nopython=True )
+
 def Dphi_cDvj(vi, vj, xi, xj):
     u0,u1,u2 = vi
     v0,v1,v2 = vj

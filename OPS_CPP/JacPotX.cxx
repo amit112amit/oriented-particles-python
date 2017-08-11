@@ -1,7 +1,4 @@
-"""
-Derivative of co-planarity potential wrt xi
-"""
-@jit( f8[:](f8[:], f8[:], f8[:]), cache=True, nopython=True )
+
 def Dphi_pDxi(vi, xi, xj):
     u0,u1,u2 = vi
     x0,x1,x2 = xi
@@ -43,10 +40,7 @@ def Dphi_pDxi(vi, xi, xj):
         
     return array([Dphi_pDxi0,Dphi_pDxi1,Dphi_pDxi2])
 
-"""
-Derivative of co-planarity potential wrt xj
-"""
-@jit( f8[:](f8[:], f8[:], f8[:]), cache=True, nopython=True )
+
 def Dphi_pDxj(vi, xi, xj):
     u0,u1,u2 = vi
     x0,x1,x2 = xi
@@ -88,10 +82,7 @@ def Dphi_pDxj(vi, xi, xj):
 
     return array([Dphi_pDxj0,Dphi_pDxj1,Dphi_pDxj2])
 
-"""
-Derivative of co-circularity potential wrt xi
-"""
-@jit( f8[:](f8[:], f8[:], f8[:], f8[:]), cache=True, nopython=True )
+
 def Dphi_cDxi(vi, vj, xi, xj):
     u0,u1,u2 = vi
     v0,v1,v2 = vj
@@ -162,10 +153,7 @@ def Dphi_cDxi(vi, vj, xi, xj):
  
     return array([Dphi_cDxi0,Dphi_cDxi1,Dphi_cDxi2])
 
-"""
-Derivative of co-circularity potential wrt xj
-"""
-@jit( f8[:](f8[:], f8[:], f8[:], f8[:]), cache=True, nopython=True )
+
 def Dphi_cDxj(vi, vj, xi, xj):
     u0,u1,u2 = vi
     v0,v1,v2 = vj
