@@ -1,0 +1,29 @@
+    u0_2 = u0*u0;
+    u1_2 = u1*u1;
+    u2_2 = u2*u2;
+    u_2 = u0_2 + u1_2 + u2_2;
+    u = sqrt(u_2);
+    u_3 = u*u*u;
+    u_4 = u*u*u*u;  
+    sin_alpha = sin( 0.5*u );
+    cos_alpha = cos( 0.5*u );
+    sin_alpha_2 = sin_alpha*sin_alpha;
+    cos_alpha_2 = cos_alpha*cos_alpha;
+    
+    dp0du0 = 2*(-u0*u1*sin_alpha/2 + u2*sin_alpha + u0_2*u2*cos_alpha/(2*u) + u0*u1*cos_alpha/u)*sin_alpha/u_2 + u0*(u*u1*cos_alpha + u0*u2*sin_alpha)*cos_alpha/u_3 - 4*u0*(u*u1*cos_alpha + u0*u2*sin_alpha)*sin_alpha/u_4;
+
+    dp1du0 = 2*(u*sin_alpha + u0_2*cos_alpha/2 + u0_2*sin_alpha/u - u0*u1*u2*sin_alpha/(2*u))*sin_alpha/u_2 + u0*(u*u0*sin_alpha + u1*u2*cos_alpha)*cos_alpha/u_3 - 4*u0*(u*u0*sin_alpha + u1*u2*cos_alpha)*sin_alpha/u_4;
+
+    dp2du0 = -u0*sin_alpha*cos_alpha/u - 2*u0*sin_alpha_2/u_2 + u0*(-u0_2 - u1_2 + u2_2)*sin_alpha*cos_alpha/u_3 - 2*u0*(-u0_2 - u1_2 + u2_2)*sin_alpha_2/u_4;
+
+    dp0du1 = 2*(u*cos_alpha - u1_2*sin_alpha/2 + u0*u1*u2*cos_alpha/(2*u) + u1_2*cos_alpha/u)*sin_alpha/u_2 + u1*(u*u1*cos_alpha + u0*u2*sin_alpha)*cos_alpha/u_3 - 4*u1*(u*u1*cos_alpha + u0*u2*sin_alpha)*sin_alpha/u_4;
+
+    dp1du1 = 2*(u0*u1*cos_alpha/2 + u2*cos_alpha + u0*u1*sin_alpha/u - u1_2*u2*sin_alpha/(2*u))*sin_alpha/u_2 + u1*(u*u0*sin_alpha + u1*u2*cos_alpha)*cos_alpha/u_3 - 4*u1*(u*u0*sin_alpha + u1*u2*cos_alpha)*sin_alpha/u_4;
+
+    dp2du1 = -u1*sin_alpha*cos_alpha/u - 2*u1*sin_alpha_2/u_2 + u1*(-u0_2 - u1_2 + u2_2)*sin_alpha*cos_alpha/u_3 - 2*u1*(-u0_2 - u1_2 + u2_2)*sin_alpha_2/u_4;
+
+    dp0du2 = 2*(u0*sin_alpha - u1*u2*sin_alpha/2 + u0*u2_2*cos_alpha/(2*u) + u1*u2*cos_alpha/u)*sin_alpha/u_2 + u2*(u*u1*cos_alpha + u0*u2*sin_alpha)*cos_alpha/u_3 - 4*u2*(u*u1*cos_alpha + u0*u2*sin_alpha)*sin_alpha/u_4;
+
+    dp1du2 = 2*(u0*u2*cos_alpha/2 + u1*cos_alpha + u0*u2*sin_alpha/u - u1*u2_2*sin_alpha/(2*u))*sin_alpha/u_2 + u2*(u*u0*sin_alpha + u1*u2*cos_alpha)*cos_alpha/u_3 - 4*u2*(u*u0*sin_alpha + u1*u2*cos_alpha)*sin_alpha/u_4;
+
+    dp2du2 = -u2*sin_alpha*cos_alpha/u + 2*u2*sin_alpha_2/u_2 + u2*(-u0_2 - u1_2 + u2_2)*sin_alpha*cos_alpha/u_3 - 2*u2*(-u0_2 - u1_2 + u2_2)*sin_alpha_2/u_4;
