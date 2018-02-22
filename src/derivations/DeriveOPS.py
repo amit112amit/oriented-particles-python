@@ -117,9 +117,9 @@ varNames = ['psi','phi_p','phi_n','phi_c','Dmorse_Dxi','Dmorse_Dxj','Dpsi_Du',\
 
 newEqns = []
 
-for eqn in eqns:    
+for eqn in eqns:
     if type(eqn) != list:
-        temp = eqn.subs(subsList)        
+        temp = eqn.subs(subsList)
     else:
         temp = []
         for term in eqn:
@@ -130,7 +130,7 @@ for eqn in eqns:
 for i in range(len(newEqns)):
     eqn = newEqns[i]
     fileName = fileNames[i] + '.txt'
-    if type(eqn) != list:        
+    if type(eqn) != list:
         writeListToFile( fileName, [eqn], varNames[i] )
-    else:        
+    else:
         writeListToFile( fileName, eqn, varNames[i] )

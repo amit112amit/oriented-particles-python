@@ -30,7 +30,7 @@ print("\nQuaternion multiplication result = ")
 print(ans)
 print("\n")
 
-# Apply Hamiltonian product rules    
+# Apply Hamiltonian product rules
 subsRule1 = [(i**2, -1), (j**2, -1), (k**2, -1)]
 subsRule2 = [(i*j, k), (j*k, i), (k*i, j)]
 subsRule3 = [(j*i, -k), (k*j, -i), (i*k, -j)]
@@ -82,7 +82,7 @@ q_full = q0 + q1*i + q2*j + q3*k
  #inverse of quaternion q^(-1)
 qi_full = q0 - q1*i - q2*j - q3*k
 
-# Conjugation 
+# Conjugation
 ans = sy.expand(q_full*p_full*qi_full)
 
 #print(ans)
