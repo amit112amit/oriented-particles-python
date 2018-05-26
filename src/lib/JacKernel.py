@@ -16,12 +16,12 @@ def Dpsi_Dxi(vi, xi, xj, K, a, b):
     u0,u1,u2 = vi
     x0,x1,x2 = xi
     y0,y1,y2 = xj
-    
+
     vi_mag_sqr = u0**2 + u1**2 + u2**2
-    vi_mag = sqrt(vi_mag_sqr)    
-    sin_alpha_i = sin( 0.5*vi_mag )    
+    vi_mag = sqrt(vi_mag_sqr)
+    sin_alpha_i = sin( 0.5*vi_mag )
     cos_alpha_i = cos( 0.5*vi_mag )
-    
+
     Dpsi_Dxi0 = K*(-\
         (4*cos_alpha_i*sin_alpha_i*u1/vi_mag -\
          4*sin_alpha_i**2*u0*u2/vi_mag**2)*(cos_alpha_i**2*(-x2 + y2) +\
@@ -155,7 +155,7 @@ def Dpsi_Dxi(vi, xi, xj, K, a, b):
         2*x0 + 2*y0)/vi_mag**2 + sin_alpha_i**2*u1**2*(-x1 + y1)/vi_mag**2 +\
          sin_alpha_i**2*u1*u2*(-2*x2 + 2*y2)/vi_mag**2 -\
          sin_alpha_i**2*u2**2*(-x1 + y1)/vi_mag**2)**2)/(2*a**2))
-             
+
     return array([Dpsi_Dxi0, Dpsi_Dxi1, Dpsi_Dxi2])
 
 """
@@ -166,12 +166,12 @@ def Dpsi_Dxj(vi, xi, xj, K, a, b):
     u0,u1,u2 = vi
     x0,x1,x2 = xi
     y0,y1,y2 = xj
-    
+
     vi_mag_sqr = u0**2 + u1**2 + u2**2
-    vi_mag = sqrt(vi_mag_sqr)    
-    sin_alpha_i = sin( 0.5*vi_mag )    
+    vi_mag = sqrt(vi_mag_sqr)
+    sin_alpha_i = sin( 0.5*vi_mag )
     cos_alpha_i = cos( 0.5*vi_mag )
-    
+
     Dpsi_Dxj0 = K*(-(-\
         4*cos_alpha_i*sin_alpha_i*u1/vi_mag +\
          4*sin_alpha_i**2*u0*u2/vi_mag**2)*(cos_alpha_i**2*(-x2 + y2) +\
@@ -305,7 +305,7 @@ def Dpsi_Dxj(vi, xi, xj, K, a, b):
         2*x0 + 2*y0)/vi_mag**2 + sin_alpha_i**2*u1**2*(-x1 + y1)/vi_mag**2 +\
          sin_alpha_i**2*u1*u2*(-2*x2 + 2*y2)/vi_mag**2 -\
          sin_alpha_i**2*u2**2*(-x1 + y1)/vi_mag**2)**2)/(2*a**2))
-    
+
     return array([Dpsi_Dxj0, Dpsi_Dxj1, Dpsi_Dxj2])
 
 """
@@ -316,10 +316,10 @@ def Dpsi_Dvi(vi, xi, xj, K, a, b):
     u0,u1,u2 = vi
     x0,x1,x2 = xi
     y0,y1,y2 = xj
-    
+
     vi_mag_sqr = u0**2 + u1**2 + u2**2
-    vi_mag = sqrt(vi_mag_sqr)    
-    sin_alpha_i = sin( 0.5*vi_mag )    
+    vi_mag = sqrt(vi_mag_sqr)
+    sin_alpha_i = sin( 0.5*vi_mag )
     cos_alpha_i = cos( 0.5*vi_mag )
 
     Dpsi_Du0 = K*(-(cos_alpha_i**2*(-x2 + y2) +\
@@ -605,5 +605,5 @@ def Dpsi_Dvi(vi, xi, xj, K, a, b):
         2*x0 + 2*y0)/vi_mag**2 + sin_alpha_i**2*u1**2*(-x1 + y1)/vi_mag**2 +\
          sin_alpha_i**2*u1*u2*(-2*x2 + 2*y2)/vi_mag**2 -\
          sin_alpha_i**2*u2**2*(-x1 + y1)/vi_mag**2)**2)/(2*a**2))
-   
+
     return array([Dpsi_Du0, Dpsi_Du1, Dpsi_Du2])

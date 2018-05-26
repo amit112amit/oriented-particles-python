@@ -16,9 +16,9 @@ Derivative of Morse potential wrt xi
 def Dmorse_Dxi(xi, xj, epsilon, l0, a):
     x0,x1,x2 = xi
     y0,y1,y2 = xj
-    
+
     rij = sqrt( (-x0+y0)**2 + (-x1+y1)**2 + (-x2+y2)**2 )
-    
+
     Dmorse_Dxi0 = epsilon*(2*a*(x0 - y0)*exp(-\
         a*(-l0 + rij))/rij - 2*a*(x0 - y0)*exp(-2*a*(-l0 +\
          rij))/rij)
@@ -29,7 +29,7 @@ def Dmorse_Dxi(xi, xj, epsilon, l0, a):
 
     Dmorse_Dxi2 = epsilon*(2*a*(x2 - y2)*exp(-a*(-l0 +\
          rij))/rij - 2*a*(x2 - y2)*exp(-2*a*(-l0 + rij))/rij)
-    
+
     return array([Dmorse_Dxi0,Dmorse_Dxi1,Dmorse_Dxi2])
 
 """
@@ -39,9 +39,9 @@ Derivative of Morse potential wrt xj
 def Dmorse_Dxj(xi, xj, epsilon, l0, a):
     x0,x1,x2 = xi
     y0,y1,y2 = xj
-    
+
     rij = sqrt( (-x0+y0)**2 + (-x1+y1)**2 + (-x2+y2)**2 )
-    
+
     Dmorse_Dxj0 = epsilon*(2*a*(-x0 +\
          y0)*exp(-a*(-l0 + rij))/rij - 2*a*(-x0 + y0)*exp(-2*a*(-l0 +\
          rij))/rij)
@@ -51,7 +51,7 @@ def Dmorse_Dxj(xi, xj, epsilon, l0, a):
          rij))/rij)
 
     Dmorse_Dxj2 = epsilon*(2*a*(-x2 + y2)*exp(-a*(-l0 +\
-         rij))/rij - 2*a*(-x2 + y2)*exp(-2*a*(-l0 + rij))/rij)    
+         rij))/rij - 2*a*(-x2 + y2)*exp(-2*a*(-l0 + rij))/rij)
 
     return array([Dmorse_Dxj0,Dmorse_Dxj1,Dmorse_Dxj2])
 
@@ -63,12 +63,12 @@ def Dphi_pDxi(vi, xi, xj):
     u0,u1,u2 = vi
     x0,x1,x2 = xi
     y0,y1,y2 = xj
-    
+
     vi_mag_sqr = u0**2 + u1**2 + u2**2
     vi_mag = sqrt(vi_mag_sqr)
-    sin_alpha_i = sin( 0.5*vi_mag )    
+    sin_alpha_i = sin( 0.5*vi_mag )
     cos_alpha_i = cos( 0.5*vi_mag )
-        
+
     Dphi_pDxi0 = (-\
         4*cos_alpha_i*sin_alpha_i*u1/vi_mag -\
          4*sin_alpha_i**2*u0*u2/vi_mag**2)*((-x0 +\
@@ -97,7 +97,7 @@ def Dphi_pDxi(vi, xi, xj):
          sin_alpha_i**2*u2**2/vi_mag**2))*(-2*cos_alpha_i**2 +\
          2*sin_alpha_i**2*u0**2/vi_mag**2 + 2*sin_alpha_i**2*u1**2/vi_mag**2 -\
          2*sin_alpha_i**2*u2**2/vi_mag**2)
-        
+
     return array([Dphi_pDxi0,Dphi_pDxi1,Dphi_pDxi2])
 
 """
@@ -108,12 +108,12 @@ def Dphi_pDxj(vi, xi, xj):
     u0,u1,u2 = vi
     x0,x1,x2 = xi
     y0,y1,y2 = xj
-    
+
     vi_mag_sqr = u0**2 + u1**2 + u2**2
     vi_mag = sqrt(vi_mag_sqr)
-    sin_alpha_i = sin( 0.5*vi_mag )    
+    sin_alpha_i = sin( 0.5*vi_mag )
     cos_alpha_i = cos( 0.5*vi_mag )
-    
+
     Dphi_pDxj0 = (4*cos_alpha_i*sin_alpha_i*u1/vi_mag +\
          4*sin_alpha_i**2*u0*u2/vi_mag**2)*((-x0 +\
          y0)*(2*cos_alpha_i*sin_alpha_i*u1/vi_mag +\
@@ -154,7 +154,7 @@ def Dphi_cDxi(vi, vj, xi, xj):
     v0,v1,v2 = vj
     x0,x1,x2 = xi
     y0,y1,y2 = xj
-    
+
     vi_mag_sqr = u0**2 + u1**2 + u2**2
     vj_mag_sqr = v0**2 + v1**2 + v2**2
     vi_mag = sqrt(vi_mag_sqr)
@@ -163,7 +163,7 @@ def Dphi_cDxi(vi, vj, xi, xj):
     sin_alpha_j = sin( 0.5*vj_mag )
     cos_alpha_i = cos( 0.5*vi_mag )
     cos_alpha_j = cos( 0.5*vj_mag )
-    
+
     Dphi_cDxi0 = ((-x0 +\
          y0)*(2*cos_alpha_i*sin_alpha_i*u1/vi_mag +\
          2*cos_alpha_j*sin_alpha_j*v1/vj_mag +\
@@ -216,7 +216,7 @@ def Dphi_cDxi(vi, vj, xi, xj):
          2*sin_alpha_i**2*u1**2/vi_mag**2 - 2*sin_alpha_i**2*u2**2/vi_mag**2 +\
          2*sin_alpha_j**2*v0**2/vj_mag**2 + 2*sin_alpha_j**2*v1**2/vj_mag**2 -\
          2*sin_alpha_j**2*v2**2/vj_mag**2)
- 
+
     return array([Dphi_cDxi0,Dphi_cDxi1,Dphi_cDxi2])
 
 """
@@ -228,7 +228,7 @@ def Dphi_cDxj(vi, vj, xi, xj):
     v0,v1,v2 = vj
     x0,x1,x2 = xi
     y0,y1,y2 = xj
-    
+
     vi_mag_sqr = u0**2 + u1**2 + u2**2
     vj_mag_sqr = v0**2 + v1**2 + v2**2
     vi_mag = sqrt(vi_mag_sqr)
@@ -237,7 +237,7 @@ def Dphi_cDxj(vi, vj, xi, xj):
     sin_alpha_j = sin( 0.5*vj_mag )
     cos_alpha_i = cos( 0.5*vi_mag )
     cos_alpha_j = cos( 0.5*vj_mag )
-    
+
     Dphi_cDxj0 = ((-x0 +\
          y0)*(2*cos_alpha_i*sin_alpha_i*u1/vi_mag +\
          2*cos_alpha_j*sin_alpha_j*v1/vj_mag +\

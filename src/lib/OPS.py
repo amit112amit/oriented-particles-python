@@ -188,7 +188,7 @@ remaining elements are Jacobian
 @jit(nopython=True,cache=True)
 def pointEnergyJacobian(points, params, calcJac=True):
     N_tot = len(points) / 6
-    N = int(N_tot)    
+    N = int(N_tot)
     # Unpack params. Sequence is very important!!
     alphaM = params[0]
     alphaP = params[1]
@@ -203,7 +203,7 @@ def pointEnergyJacobian(points, params, calcJac=True):
 
     vi = points[0:3]
     xi = points[3:6]
-    
+
     energy = 0.0
     Jx = zeros((N,3))
     Jv = zeros((N,3))
@@ -229,7 +229,7 @@ def pointEnergyJacobian(points, params, calcJac=True):
             si = i*6
             vj = points[si:si+3]
             xj = points[si+3:si+6]
-            
+
             # Evaluate morse potential derivatives
             morseEn = morse(xi,xj,E,re,s)
             dMorseXi = Dmorse_Dxi( xi, xj, E, re, s )
@@ -272,14 +272,14 @@ def pointEnergyJacobian(points, params, calcJac=True):
                 + alphaC*( dPhi_cXj*KerXi + Phi_cXi*dKerXj )
 
             energy += alphaM*morseEn + ( alphaP*Phi_pXi + alphaN*Phi_nXi + \
-                                    alphaC*Phi_cXi )*KerXi            
-                        
+                                    alphaC*Phi_cXi )*KerXi
+
         # Assemble Jacobian output
         for i in range(N):
             si = i*6 + 1
             EAndJ[si:si+3] = Jv[i]
             EAndJ[si+3:si+6] = Jx[i]
-    
+
     EAndJ[0] = energy
     return EAndJ
 
@@ -410,8 +410,8 @@ A function to calculate asphericity and average radius from solution array x
 @jit(nopython=True,cache=True)
 def getRadialStats(x):
     N_tot = len(x)/6.0
-    N = int(N_tot)    
-    # Calculate average radius    
+    N = int(N_tot)
+    # Calculate average radius
     ravg = 0.0
     rad = zeros(N)
     for i in range(N):
@@ -431,10 +431,10 @@ def getRadialStats(x):
 """
 Convert x-array to a vtk file
 """
-def writeToVTK(x,fileName):   
+def writeToVTK(x,fileName):
     # Calculate the total number of points in the particle system.
     N = int( len(x)/6 )
-    
+
     # Compute the point normals and create points and vertices for vtkPolyData
     finalPts = v.vtkPoints()
     unitSpherePts = v.vtkPoints()
@@ -453,14 +453,14 @@ def writeToVTK(x,fileName):
         #verts.InsertCellPoint( i )
         normalizedPoint = currPoint / norm(currPoint)
         unitSpherePts.InsertNextPoint( normalizedPoint )
-    
-    unitSphere = v.vtkPolyData()    
+
+    unitSphere = v.vtkPolyData()
     ids = v.vtkIdFilter()
     d3D = v.vtkDelaunay3D()
     dssf = v.vtkDataSetSurfaceFilter()
     cellIds = v.vtkIdList()
-    finalTris = v.vtkCellArray()   
-    
+    finalTris = v.vtkCellArray()
+
     """
     Project all the points from finalPts to a unit sphere.
     Generate a convex hull on the unit sphere. Map the topology
@@ -477,24 +477,24 @@ def writeToVTK(x,fileName):
     triangulation = dssf.GetOutput()
     cells = triangulation.GetPolys()
     cells.InitTraversal()
-    origIds = v.vtkIdTypeArray.SafeDownCast( 
+    origIds = v.vtkIdTypeArray.SafeDownCast(
             triangulation.GetPointData().GetArray("origIds") )
     while cells.GetNextCell( cellIds ):
         if cellIds.GetNumberOfIds() == 3:
-            finalTris.InsertNextCell( 3 )        
+            finalTris.InsertNextCell( 3 )
             for i in range( 3 ):
                 finalTris.InsertCellPoint(int(
                         origIds.GetTuple1(cellIds.GetId(i))))
-                
+
     # Create new polydata
     pd = v.vtkPolyData()
     pd.SetPoints( finalPts )
     #pd.SetVerts( verts )
     pd.GetPointData().SetNormals( finalNormals )
     pd.SetPolys( finalTris )
-    
+
     # Write the output file
-    pdw = v.vtkPolyDataWriter()    
+    pdw = v.vtkPolyDataWriter()
     pdw.SetFileName(fileName)
     pdw.SetInputData(pd)
     pdw.Update()

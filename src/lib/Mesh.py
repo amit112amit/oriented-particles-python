@@ -19,17 +19,17 @@ def meshPointCloud( inputVTKfile, searchRad ):
     N = pd.GetNumberOfPoints()
     kdt = v.vtkKdTree()
     kdt.BuildLocatorFromPoints( pd.GetPoints() )
-    
+
     polys = v.vtkCellArray()
     for i in range( N ):
         currPoint = pd.GetPoint(i)
-        idList = v.vtkIdList()        
+        idList = v.vtkIdList()
         kdt.FindPointsWithinRadius( searchRad, currPoint, idList )
-        
+
         neighbors = []
         for j in range( idList.GetNumberOfIds() ):
             currId = idList.GetId(j)
             if j != i:
                 neighbors.append(currId)
-        
-        
+
+

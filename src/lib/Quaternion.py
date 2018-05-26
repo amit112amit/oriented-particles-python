@@ -12,14 +12,14 @@ from numpy import array, sqrt, arccos, sin, cos, dot, zeros
 quatMul(q,p): returns Hamiltonian product of q and p
 """
 @jit(cache=True,nopython=True)
-def quatMul(p,q):    
-    # We will assume that q and p are quaternions    
+def quatMul(p,q):
+    # We will assume that q and p are quaternions
     p0,p1,p2,p3 = p
     q0,q1,q2,q3 = q
-    
+
     ans = array([p0*q0 - p1*q1 - p2*q2 - p3*q3, p0*q1 + p1*q0 + p2*q3 - p3*q2,
            p0*q2 - p1*q3 + p2*q0 + p3*q1, p0*q3 + p1*q2 - p2*q1 + p3*q0])
-    
+
     return ans
 
 """
@@ -47,7 +47,7 @@ def rotMatToUQuat(R):
     r11,r12,r13 = R[0]
     r21,r22,r23 = R[1]
     r31,r32,r33 = R[2]
-    
+
     if r22 > -r33 and r11 > -r22 and r11 > -r33:
         r = sqrt(1 + r11 + r22 + r33)
         q = 0.5*array([ r, (r23 - r32)/r, (r31 - r13)/r ,(r12 - r21)/r ])
@@ -60,7 +60,7 @@ def rotMatToUQuat(R):
     elif r22 < r33 and r11 < -r22 and r11 < r33:
         r = sqrt(1 - r11 - r22 + r33)
         q = 0.5*array([ (r12 - r21)/r, (r31 + r13)/r, (r23 + r32)/r, r ])
-        
+
     return q
 
 """
@@ -69,7 +69,7 @@ uQuatToRotVec(q): returns a rotation vector from a unit quaternion q
 @jit(cache=True,nopython=True)
 def uQuatToRotVec(q):
     q0,q1,q2,q3 = q
-    q123 = array( [q1,q2,q3] ) 
+    q123 = array( [q1,q2,q3] )
     v = (2*arccos(q0))/sqrt(1 - q0*q0)*q123
     return v
 
@@ -77,14 +77,14 @@ def uQuatToRotVec(q):
 rotVecToUQuat(r): returns a unit quaternion from a rotation vector v
 """
 @jit(cache=True,nopython=True)
-def rotVecToUQuat(v):    
+def rotVecToUQuat(v):
     v_norm = sqrt( v[0]*v[0] + v[1]*v[1] + v[2]*v[2] )
     q = array([ cos(0.5*v_norm), 0.0, 0.0, 0.0])
     q[1:4] = (sin( 0.5*v_norm )/v_norm)*v
     return q
 
 """
- rotByUQuat(q,z): rotates the vector z by unit quaternion q and returns 
+ rotByUQuat(q,z): rotates the vector z by unit quaternion q and returns
      a vector instead of a quaternion by stripping the 0 first component
 """
 @jit(cache=True,nopython=True)
@@ -100,7 +100,7 @@ def rotByUQuat(q,z):
     Qp[1:4,0] = array([0.0,0.0,0.0])
     Qp[1:4,1:4] = Rq
     z_mod = array([0.0, z[0],z[1],z[2]])
-    out = dot(Qp,z_mod)    
+    out = dot(Qp,z_mod)
     return out
 
 """
